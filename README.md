@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+# EcoPerks
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+EcoPerks is a low-carbon pathfinder that helps users find the most eco-friendly routes while earning rewards at sustainable restaurants. This project integrates **OpenRouteService** for multimodal transportation and **geocoding**, along with a **Flask backend** to handle routing, coordinate conversion, and API requests.
 
-## Available Scripts
+.
 
-In the project directory, you can run:
+## **🛠 Tech Stack**
 
-### `npm start`
+-   **Frontend**: React.js (Axios for API calls)
+-   **Backend**: Flask (Python)
+-   **APIs Used**:
+    -   [OpenRouteService](https://openrouteservice.org/) – Multimodal routing & geocoding
+    -   Google Maps (Optional for visualization)
+-   **Database (Future Scope)**: PostgreSQL / Firebase for user rewards tracking
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+----------
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## **📂 Project Structure**
 
-### `npm test`
+bash
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+CopyEdit
 
-### `npm run build`
+`EcoPerks/
+│── backend/             # Flask backend
+│   ├── server.py        # Main backend API
+│   ├── utils.py         # Helper functions (geocoding, emissions calculation)
+│   ├── config.py        # API keys & environment variables
+│   ├── requirements.txt # Python dependencies
+│── frontend/            # React frontend (calls Flask API)
+│   ├── src/
+│   │   ├── services/    # API calls (Axios)
+│   │   ├── components/  # UI components
+│── README.md            # Project documentation
+│── .gitignore           # Ignore unnecessary files` 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+----------
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## **🚀 How the Backend Works**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### **1️⃣ Address → Coordinates (Geocoding)**
 
-### `npm run eject`
+-   The backend receives a **text address** (e.g., `"Princeton University, NJ"`).
+-   Calls OpenRouteService’s **Geocoding API** to **convert the address to latitude & longitude**.
+-   Returns the coordinates to the frontend.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+📌 **API Endpoint:**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+http
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+CopyEdit
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+`GET /get-coordinates?address=<address>` 
 
-## Learn More
+📌 **Example Response:**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+json
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+CopyEdit
 
-### Code Splitting
+`{
+  "latitude": 40.3431,
+  "longitude": -74.6514
+}` 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+----------
 
-### Analyzing the Bundle Size
+### **2️⃣ Finding the Best Route (Low-Carbon Pathfinding)**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+-   The backend gets **origin & destination addresses** from the frontend.
+-   Converts addresses to **coordinates** using OpenRouteService Geocoding.
+-   Calls **OpenRouteService Routing API** to find a multimodal route (walking, biking, transit).
+-   Returns the **optimized route** with total **CO₂ emissions**.
 
-### Making a Progressive Web App
+📌 **API Endpoint:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+http
 
-### Advanced Configuration
+CopyEdit
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+`GET /get-route?origin=<origin>&destination=<destination>&mode=<mode>` 
 
-### Deployment
+📌 **Example Modes:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+-   `"foot-walking"` 🚶
+-   `"cycling-regular"` 🚲
+-   `"driving-car"` 🚗
+-   `"publicTransport"` 🚌
 
-### `npm run build` fails to minify
+📌 **Example Response:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+json
+
+CopyEdit
+
+`{
+  "route": [
+    {"mode": "walking", "distance_km": 1.2},
+    {"mode": "bus", "distance_km": 8.5},
+    {"mode": "walking", "distance_km": 0.3}
+  ],
+  "co2_emissions_kg": 0.3
+}` 
+
+----------
+
+### **3️⃣ Finding Nearby Eco-Friendly Restaurants**
+
+-   The backend will later integrate **sustainability-focused restaurant databases**.
+-   Uses geolocation to **suggest restaurants near the user's route**.
+-   Future scope: Integrate **discounts & loyalty rewards**.
+
+📌 **API Endpoint:**
+
+http
+
+CopyEdit
+
+`GET /get-eco-restaurants?lat=<lat>&lon=<lon>` 
+
+📌 **Example Response:**
+
+json
+
+CopyEdit
+
+`{
+  "restaurants": [
+    {"name": "Green Earth Café", "distance_km": 0.5, "discount": "10%"},
+    {"name": "Vegan Bites", "distance_km": 0.8, "discount": "15%"}
+  ]
+}`
