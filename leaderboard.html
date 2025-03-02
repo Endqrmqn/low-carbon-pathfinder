@@ -21,6 +21,18 @@
             margin-bottom: 10px;
         }
 
+        .first{
+            background:#ffcc00;
+        }
+
+        .second{
+            background:#a6a6a6;
+        }
+
+        .third{
+            background:#cc6600;
+        }
+
         .leaderboard {
             width: 300px;
             padding: 20px;
@@ -31,7 +43,7 @@
 
         .leaderboard-item {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 10px;
@@ -42,7 +54,38 @@
             margin-bottom: 0;
         }
 
-        .rank, .name, .score {
+        .rank-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .crown {
+            position: absolute;
+            top: -20px; /* Adjust this value to move the crown up or down */
+            font-size: 1.2em;
+            color: gold;
+        }
+
+        .rank {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+        }
+
+        .rank.circle {
+            border-radius: 50%;
+            color: #ffffff;
+        }
+
+        .name, .score {
             flex: 1;
             text-align: center;
         }
@@ -52,18 +95,60 @@
     <h1 class="leaderboard-title">WorldWide Leaderboard</h1>
     <div class="leaderboard">
         <div class="leaderboard-item">
-            <div class="rank">1</div>
+            <div class="rank-container">
+                <span class="crown">👑</span>
+                <div class="rank circle first">1</div>
+            </div>
             <div class="name">User1</div>
             <div class="score">1000</div>
         </div>
         <div class="leaderboard-item">
-            <div class="rank">2</div>
+            <div class="rank-container">
+                <div class="rank circle second">2</div>
+            </div>
             <div class="name">User2</div>
             <div class="score">900</div>
         </div>
         <div class="leaderboard-item">
-            <div class="rank">3</div>
+            <div class="rank-container">
+                <div class="rank circle third">3</div>
+            </div>
             <div class="name">User3</div>
+            <div class="score">800</div>
+        </div>
+        <div class="leaderboard-item">
+            <div class="rank-container">
+                <div class="rank">4</div>
+            </div>
+            <div class="name">User4</div>
+            <div class="score">800</div>
+        </div>
+        <div class="leaderboard-item">
+            <div class="rank-container">
+                <div class="rank">5</div>
+            </div>
+            <div class="name">User5</div>
+            <div class="score">800</div>
+        </div>
+        <div class="leaderboard-item">
+            <div class="rank-container">
+                <div class="rank">6</div>
+            </div>
+            <div class="name">User6</div>
+            <div class="score">800</div>
+        </div>
+        <div class="leaderboard-item">
+            <div class="rank-container">
+                <div class="rank">7</div>
+            </div>
+            <div class="name">User7</div>
+            <div class="score">800</div>
+        </div>
+        <div class="leaderboard-item">
+            <div class="rank-container">
+                <div class="rank">8</div>
+            </div>
+            <div class="name">User8</div>
             <div class="score">800</div>
         </div>
     </div>
