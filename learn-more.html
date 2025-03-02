@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    background-color: #000;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.shadow {
+    text-shadow: 2px 2px 5px black;
+    font-family: "Helvetica Neue", Arial, Verdana, sans-serif;
+    font-size: 500%;
+}
+
+.news-section {
+    margin: 2rem 0;
+    padding: 0 1rem;
+    border: 20px;
+    border-radius: 20px;
+}
+
+.news-section h2 {
+    color: #333;
+}
+
+.news-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.news-article {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    width: 300px; /* Set a fixed width for the carousel items */
+    height: 400px; /* Set a fixed height for the carousel items */
+    flex-shrink: 0; /* Prevent the items from shrinking */
+    overflow: hidden; /* Hide overflowing content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.news-article:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.news-article img {
+    width: 100%;
+    height: 200px;
+    border-radius: 20px;
+}
+
+.news-article h2 {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.news-article p {
+    color: #666;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Restrict to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.carousel-link {
+    text-decoration: none; /* Remove underline from the link */
+    color: inherit; /* Inherit the text color */
+}
+
+.carousel-link h2, .carousel-link p {
+    text-decoration: none; /* Remove underline from the text */
+}
+
+@media (max-width: 600px) {
+    .carousel-item, .news-article {
+        min-width: 100%;
+    }
+}
+
+.single-image {
+            position: relative;
+            width: 100%;
+            height: auto; /* Adjust this based on your design needs */
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .single-image img {
+            width: 100%;
+            height: 25%;
+            object-fit: cover;
+        }
+
+       
+
+    </style>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    
+</head>
+<body>
+
+    <div class="header">
+        <h1>Learn More</h1>
+    </div>
+
+      <!-- Single Image -->
+<div class="single-image">
+    <a href="https://www.depave.org/what-we-do" target="_blank">
+        <img src="Depaving.jpg" class="d-block w-100" alt="Depaving: What We Do" >
+    </a>
+</div>
+
+    
+    
+
+
+    
+
+
+
+    <div class="news-section">
+        <h2>Climate Legislation</h2>
+        <div class="news-carousel">
+
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link" target="_blank">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://www.regulatoryoversight.com/2025/02/22-ags-challenge-new-yorks-climate-superfund-law/" class="carousel-link"  target="_blank">
+                <div class="news-article">
+                    <img src="AG.jpg" alt="eco News 1">
+                    <h2>22 AGs Challenge New York’s Climate Superfund Law</h2>
+                    <p>A coalition of industry associations and 22 state attorneys general (AG), led by West Virginia AG JB McCuskey, filed a lawsuit against the State of New York in the U.S. District Court for the Northern District of New York challenging the validity of the state’s recently enacted Climate Change Superfund Act. The complaint asserts that the act’s retroactive imposition of multibillion-dollar fines on fossil fuel companies is both preempted by federal law and violates several bedrock constitutional principles.</p>
+                </div>
+            </a><a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link"  target="_blank">
+                <div class="news-article">
+                    <img src="RP.png" alt="eco News 2">
+                    <h2>New York Republican Senators propose scaling back climate laws</h2>
+                    <p>ALBANY, N.Y. (NEXSTAR) — New York Senate Republicans held a press conference on Tuesday to announce a suite of bills that disable several elements of 2019’s Climate Leadership and Community Protection Act (CLCPA). Led by State Sen. Mario Mattera—who represents Long Island and is the ranking Republican on the Senate Energy Committee—the legislators said they want the state to study real costs, delay new mandates, and support proven sources of power.</p>
+                </div>
+            </a><a href="https://nadler.house.gov/news/documentsingle.aspx?DocumentID=396266" class="carousel-link"target="_blank">
+                <div class="news-article">
+                    <img src="news.png" alt="eco News 1">
+                    <h2>
+                        Nadler, Chu Reintroduce Legislation to Make Polluters Pay for Fueling Climate Crisis</h2>
+                    <p>Today, Representatives Jerry Nadler (D-NY) and Judy Chu (D-CA) reintroduced the Polluters Pay Climate Fund Act, legislation to require the biggest polluters to begin paying their fair share to confront the climate crisis. The Members’ legislation requires the largest U.S.-based fossil fuel extractors and oil refiners and foreign-owned companies doing business in the U.S. to pay into a $1 trillion Polluters Pay Climate Fund, with their contributions based on a percentage of their global emissions. The Fund would then be used to finance a wide range of efforts to tackle the impacts of climate change.</p>
+                </div>
+            </a><a href="https://www.politico.com/newsletters/california-climate" class="carousel-link"target="_blank">
+                <div class="news-article">
+                    <img src="last.jpg" alt="eco News 1">
+                    <h2>5 questions for the car dealer fighting California’s EV mandate</h2>
+                    <p>PUMPING THE BRAKES: Brian Maas is leading the latest broadside against California’s electric vehicle mandate.
+
+                        Maas is president of the California New Car Dealers Association, which launched a television and internet ad campaign this week calling on the California Air</p>
+                </div>
+            </a>
+          
+        </div>
+    </div>
+
+    <div class="news-section">
+        <h2>Nature Report</h2>
+        <div class="news-carousel">
+            <a href="https://www.worldwildlife.org/stories/is-climate-change-increasing-the-risk-of-disasters" class="carousel-link" targer ="_blank">
+                <div class="news-article">
+                    <img src="CC.jpg" alt="eco News 1">
+                    <h2>Is climate change increasing the risk of disasters?</h2>
+                    <p>Facts about floods, fires, hurricanes, and tornadoes</p>
+                </div>
+            </a>
+            <a href="https://apnorc.org/projects/half-the-public-has-been-personally-affected-by-extreme-cold-spells-or-heat-waves-within-the-past-five-years/" class="carousel-link" target = "_blank">
+                <div class="news-article">
+                    <img src="CC2.jpg" alt="eco News 1">
+                    <h2>Half the public has been personally affected by extreme cold spells or heat waves within the past five years</h2>
+                    <p>Roughly half of the public report being personally affected by extreme heat waves or extreme cold spells over the past five years. Of those who have faced these and other types of extreme weather or natural disaster events, 72% consider climate change to be a contributing factor. 
+
+                        Relatively few feel that climate change has already had a major impact in their lives, but many think it will impact them in the future. Less than half think that climate change will not have impact them personally, their health, or air quality or availability of water in their area at some point in their lifetime.</p>
+                </div>
+            </a>
+            <a href="https://cepr.org/voxeu/columns/experiencing-natural-disasters-increases-partisan-disagreement-climate-change" class="carousel-link" target = "_blank">
+                <div class="news-article">
+                    <img src="scary.png" alt="eco News 1">
+                    <h2>Experiencing natural disasters increases partisan disagreement on climate change</h2>
+                    <p>As climate-related disasters become increasingly frequent and destructive, one might expect first-hand experience of these events to bring consensus on the urgency of addressing climate change. Yet, the deep ideological divide on this issue in the US and beyond – combined with highly polarised media coverage – may hinder this process. Combining data on the timing and location of US-based natural disasters with large-scale electoral surveys, this column shows that experiencing disasters actually deepens partisan divisions in climate change</p>
+                </div>
+            </a>
+            <a href="https://www.insurancebusinessmag.com/uk/news/reinsurance/how-climate-change-affects-human-health-526743.aspx" class="carousel-link" target = "_blank">
+                <div class="news-article">
+                    <img src="p1.png" alt="eco News 1">
+                    <h2>How climate change affects human health</h2>
+                    <p>Insurers and policymakers must address climate health risks
+                    </p>
+                </div>
+            </a>
+            <a href="https://www.reuters.com/breakingviews/insurers-will-struggle-dodge-climate-change-tab-2025-02-26/" class="carousel-link" target = "_blank">
+                <div class="news-article">
+                    <img src="p2.png" alt="eco News 1">
+                    <h2>Insurers will struggle to dodge climate-change tab</h2>
+                    <p>LONDON, Feb 26 (Reuters Breakingviews) - Natural disasters are becoming more frequent, deadly and damaging. At the same time, insurers are pulling coverage from areas most vulnerable to wildfires, floods, droughts and hurricanes. Their efforts to dodge the costs will be in vain, however. Governments won’t tolerate permanent insurance dead zones and can’t afford to pay up themselves. That means property and casualty firms like AIG (AIG.N), opens new tab, AXA (AXAF.PA), opens new tab and Chubb (CB.BN), opens new tab will have to end up footing much of the bill one way or another.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="news-section">
+        <h2>Research</h2>
+        <div class="news-carousel">
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="news-section">
+        <h2>Statistics</h2>
+        <div class="news-carousel">
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+            <a href="https://insideclimatenews.org/news/26022025/congress-to-vote-on-biden-administration-climate-regulations/" class="carousel-link">
+                <div class="news-article">
+                    <img src="ex1.jpg" alt="eco News 1">
+                    <h2>Congress Set to Vote on Repeal of Biden Administration Climate Regulations</h2>
+                    <p>Two bills scheduled this week would roll back rules to limit methane emissions from oil and gas operations and efficiency standards for water heaters. They would also bar similar rules in the future.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <script>
+        // JavaScript for carousel functionality
+        const carouselInner = document.querySelector('.carousel-inner');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        let currentIndex = 0;
+
+        function showNextItem() {
+            currentIndex = (currentIndex + 1) % carouselItems.length;
+            carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        setInterval(showNextItem, 3000); // Change image every 3 seconds
+
+
+    </script>
+</body>
+</html>
