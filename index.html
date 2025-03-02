@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoPerks</title>
     <link href="https://fonts.cdnfonts.com/css/helvetica-neue-55" rel="stylesheet">
-                
     
     <style>
         html, body {
@@ -43,7 +42,7 @@
             flex-grow: 1;
         }
         .navbar a:hover {
-            background-color: 	 #f2ffe6;
+            background-color: #f2ffe6;
             color: black;
         }
         .content {
@@ -84,12 +83,6 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        .leaderboard .user img {
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
         .leaderboard .user .details {
             flex-grow: 1;
         }
@@ -103,6 +96,12 @@
 
 </head>
 <body>
+
+    <div class="leaderboard">
+        <h2>Top 50 Users</h2>
+        <div id="leaderboard-content">
+            <!-- Users will be dynamically added here -->
+        </div>
     </div>
 
     <script>
@@ -112,14 +111,14 @@
             const data = await response.json();
 
             if (data.error) {
-                document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                document.getElementById('leaderboard-content').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
                 return;
             }
 
             const leaderboardContainer = document.getElementById('leaderboard-content');
             leaderboardContainer.innerHTML = ''; // Clear previous content
 
-            // Sort users by CO2 savings (descending)
+            // Sort users by CO2 savings (descending order)
             let sortedUsers = Object.entries(data).sort((a, b) => b[1].total_co2_savings_kg - a[1].total_co2_savings_kg);
 
             // Display Top 50 Users
@@ -131,7 +130,7 @@
                 let profileColor;
                 if (index === 0) profileColor = "gold";      // 🥇 Gold for 1st place
                 else if (index === 1) profileColor = "silver"; // 🥈 Silver for 2nd place
-                else if (index === 2) profileColor = "brown";  // 🥉 Bronze for 3rd place
+                else if (index === 2) profileColor = "#cd7f32";  // 🥉 Bronze for 3rd place (realistic bronze shade)
                 else profileColor = "green";                 // ✅ Green for the rest
 
                 userDiv.style.display = "flex";
@@ -150,12 +149,13 @@
 
         } catch (error) {
             console.error("Error loading leaderboard:", error);
-            document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Failed to load leaderboard.</p>`;
+            document.getElementById('leaderboard-content').innerHTML = `<p style="color: red;">Failed to load leaderboard.</p>`;
         }
     }
 
     // Ensure leaderboard loads properly
     document.addEventListener("DOMContentLoaded", loadLeaderboard);
     </script>
+
 </body>
 </html>
