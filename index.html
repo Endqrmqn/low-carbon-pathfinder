@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoPerks</title>
     <link href="https://fonts.cdnfonts.com/css/helvetica-neue-55" rel="stylesheet">
-    
+                
     <style>
         html, body {
             font-family: 'Helvetica Neue', sans-serif;
@@ -16,6 +16,8 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .container {
             display: flex;
@@ -74,6 +76,7 @@
             padding: 20px;
             margin: 20px;
             box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            text-align: center;
         }
         .leaderboard h2 {
             text-align: center;
@@ -81,10 +84,18 @@
         .leaderboard .user {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .leaderboard .user .profile-circle {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
         }
         .leaderboard .user .details {
             flex-grow: 1;
+            text-align: left;
         }
         .leaderboard .user .details .name {
             font-weight: bold;
@@ -98,10 +109,8 @@
 <body>
 
     <div class="leaderboard">
-        <h2>Top 50 Users</h2>
-        <div id="leaderboard-content">
-            <!-- Users will be dynamically added here -->
-        </div>
+        <h2>Leaderboard</h2>
+        <div id="leaderboard-content"></div>
     </div>
 
     <script>
@@ -111,14 +120,14 @@
             const data = await response.json();
 
             if (data.error) {
-                document.getElementById('leaderboard-content').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
                 return;
             }
 
             const leaderboardContainer = document.getElementById('leaderboard-content');
             leaderboardContainer.innerHTML = ''; // Clear previous content
 
-            // Sort users by CO2 savings (descending order)
+            // Sort users by CO2 savings (descending)
             let sortedUsers = Object.entries(data).sort((a, b) => b[1].total_co2_savings_kg - a[1].total_co2_savings_kg);
 
             // Display Top 50 Users
@@ -130,18 +139,14 @@
                 let profileColor;
                 if (index === 0) profileColor = "gold";      // 🥇 Gold for 1st place
                 else if (index === 1) profileColor = "silver"; // 🥈 Silver for 2nd place
-                else if (index === 2) profileColor = "#cd7f32";  // 🥉 Bronze for 3rd place (realistic bronze shade)
+                else if (index === 2) profileColor = "orange";  // 🥉 Bronze for 3rd place
                 else profileColor = "green";                 // ✅ Green for the rest
 
-                userDiv.style.display = "flex";
-                userDiv.style.alignItems = "center";
-                userDiv.style.marginBottom = "10px"; // Add spacing
-
                 userDiv.innerHTML = `
-                    <div style="width: 50px; height: 50px; background-color: ${profileColor}; border-radius: 50%; margin-right: 10px;"></div>
+                    <div class="profile-circle" style="background-color: ${profileColor};"></div>
                     <div class="details">
-                        <div class="name" style="font-weight: bold;">${name}</div>
-                        <div class="points" style="color: gray;">${user.total_co2_savings_kg.toFixed(2)} lbs of CO₂</div>
+                        <div class="name">${name}</div>
+                        <div class="points">${user.total_co2_savings_kg ? user.total_co2_savings_kg.toFixed(2) : "0"} kg CO₂</div>
                     </div>
                 `;
                 leaderboardContainer.appendChild(userDiv);
@@ -149,7 +154,7 @@
 
         } catch (error) {
             console.error("Error loading leaderboard:", error);
-            document.getElementById('leaderboard-content').innerHTML = `<p style="color: red;">Failed to load leaderboard.</p>`;
+            document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Failed to load leaderboard.</p>`;
         }
     }
 

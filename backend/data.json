@@ -912,15 +912,15 @@
     ]
   },
   "null": {
-    "total_co2_savings_kg": 1.563,
-    "trips": [
-      7.935
-    ]
-  },
-  "null": {
     "total_co2_savings_kg": 606.487,
     "trips": [
       5195.172
+    ]
+  },
+  "123": {
+    "total_co2_savings_kg": 13.518,
+    "trips": [
+      76.281
     ]
   }
 }
