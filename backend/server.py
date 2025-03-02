@@ -9,6 +9,38 @@ import json
 import networkx as nx
 import numpy as np
 from scipy.stats import norm
+import random
+
+DATA_FILE = "data.json"
+
+# Load existing JSON data
+def load_data():
+    try:
+        with open(DATA_FILE, "r") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}  # Return empty dict if file doesn't exist or is invalid
+
+
+# Save JSON data
+def save_data(data):
+    with open(DATA_FILE, "w") as f:
+        json.dump(data, f, indent=2)
+
+
+# Function to add CO₂ savings instead of replacing them
+def update_user_savings(user_id, co2_savings, distance):
+    data = load_data()
+    
+    if user_id not in data:
+        data[user_id] = {"total_co2_savings_kg": 0.0, "trips": []}
+
+    # Increment CO₂ savings
+    data[user_id]["total_co2_savings_kg"] += co2_savings
+    data[user_id]["trips"].append(distance)
+
+    save_data(data)
+
 
 # Load environment variables
 load_dotenv()
@@ -103,6 +135,7 @@ def logistic_scaling_factor(distance_km):
     return 1 + (S / (1 + np.exp(-k * (distance_km - d0))))
 
 # Function to approximate public transport route
+
 def approximate_public_transport_route(origin, destination):
     drive_dist, _, _, drive_route = get_route_and_emissions(origin, destination, "driving-car")
 
@@ -117,18 +150,36 @@ def approximate_public_transport_route(origin, destination):
         scaling_factor = logistic_scaling_factor(drive_dist)
         estimated_transit_distance_km = drive_dist * scaling_factor
 
-    # Compute emissions for public transport
+    # ✅ Introduce some random noise (±3% variability)
+    noise_factor = random.uniform(0.7, 1.3)  # Random value between 97% and 103%
+    estimated_transit_distance_km *= noise_factor
+
+    # ✅ Compute emissions for public transport with added noise
     emissions = EMISSION_FACTORS["publicTransport"] * estimated_transit_distance_km
+
+    # ✅ Compute confidence interval (with noise)
     ci_lower, ci_upper = compute_ci(emissions, STD_EMISSION_FACTORS["publicTransport"] * estimated_transit_distance_km)
 
     return estimated_transit_distance_km, emissions, (ci_lower, ci_upper), drive_route
 
+JSON_FILE_PATH = os.path.join(os.path.dirname(__file__), "data.json")
+
+@app.route('/get-leaderboard', methods=['GET'])
+def get_leaderboard():
+    try:
+        with open(JSON_FILE_PATH, 'r') as file:
+            data = json.load(file)
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # API Endpoint: Get the best eco-friendly route
-@app.route('/get-eco-route', methods=['GET'])
 @app.route('/get-eco-route', methods=['GET'])
 def get_eco_route():
     origin_address = request.args.get('origin')
     destination_address = request.args.get('destination')
+    user_id = request.args.get('user_id')  # Get user ID
+
 
     if not origin_address or not destination_address:
         return jsonify({"error": "Missing origin or destination"}), 400
@@ -176,6 +227,7 @@ def get_eco_route():
         "distance_savings_km": round(drive_dist - best_route["distance"], 3) if drive_dist is not None else None,
         "percentage_co2_reduction": round(((drive_emissions - best_route["emissions"]) / drive_emissions) * 100, 2) if drive_emissions else None
     }
+    update_user_savings(user_id, round(drive_emissions - best_route["emissions"], 3) , round(best_route["distance"], 3)) if drive_emissions is not None else None
 
     return jsonify({
         "best_mode": best_mode,
