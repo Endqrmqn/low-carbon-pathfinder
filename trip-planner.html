@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Planner</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            background-color: #333;
+            width: 200px;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            border-radius: 30px;
+        }
+        .navbar a {
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .trip-form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+        .trip-form input, .trip-form button {
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .trip-results {
+            display: none;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f4f4f4;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="trip-planner.html">Trip Planner</a>
+        <a href="rewards.html">Rewards</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="my-emissions.html">My Emissions</a>
+        <a href="become-a-member.html">Become a Member</a>
+        <a href="learn-more.html">Learn More</a>
+        <a href="donate.html">Donate</a>
+    </div>
+
+    <div class="content">
+        <h2>Plan Your Trip</h2>
+        <form class="trip-form" onsubmit="fetchEcoRoute(event)">
+            <input type="text" id="origin" placeholder="Enter starting location" required>
+            <input type="text" id="destination" placeholder="Enter destination" required>
+            <button type="submit">Find Best Eco Route</button>
+        </form>
+
+        <div id="tripResults" class="trip-results"></div>
+    </div>
+
+    <script>
+        async function fetchEcoRoute(event) {
+            event.preventDefault(); // Prevent page refresh
+
+            const origin = document.getElementById('origin').value;
+            const destination = document.getElementById('destination').value;
+            const resultsDiv = document.getElementById('tripResults');
+            resultsDiv.innerHTML = "Loading..."; // Show loading text
+            resultsDiv.style.display = "block";
+
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/get-eco-route?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    resultsDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                    return;
+                }
+
+                resultsDiv.innerHTML = `
+                    <h3>Recommended Route</h3>
+                    <p><b>Best Mode:</b> ${data.best_mode.replace('-', ' ')}</p>
+                    <p><b>Distance:</b> ${data.distance_km} km</p>
+                    <p><b>CO₂ Savings:</b> ${data.compared_to_driving.co2_savings_kg} kg</p>
+                `;
+            } catch (error) {
+                console.error("Error fetching route:", error);
+                resultsDiv.innerHTML = `<p style="color: red;">Failed to fetch eco route.</p>`;
+            }
+        }
+    </script>
+
+</body>
+</html>

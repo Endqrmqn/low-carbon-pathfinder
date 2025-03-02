@@ -109,84 +109,61 @@
         <div class="co2-counter">Number of CO2 produced in lbs (during the last week)</div>
     </div>
     <div class="leaderboard">
-        <h2>Top 5 Users</h2>
-        <div class="user">
-            <img src="profile1.jpg" alt="User 1">
-            <div class="details">
-                <div class="name">User 1</div>
-                <div class="points"># lbs of CO2</div>
-            </div>
-        </div>
-        <div class="user">
-            <img src="profile2.jpg" alt="User 2">
-            <div class="details">
-                <div class="name">User 2</div>
-                <div class="points"># lbs of CO2</div>
-            </div>
-        </div>
-        <div class="user">
-            <img src="profile3.jpg" alt="User 3">
-            <div class="details">
-                <div class="name">User 3</div>
-                <div class="points"># lbs of CO2</div>
-            </div>
-        </div>
-        <div class="user">
-            <img src="profile4.jpg" alt="User 4">
-            <div class="details">
-                <div class="name">User 4</div>
-                <div class="points"># lbs of CO2</div>
-            </div>
-        </div>
-        <div class="user">
-            <img src="profile5.jpg" alt="User 5">
-            <div class="details">
-                <div class="name">User 5</div>
-                <div class="points"># lbs of CO2</div>
-            </div>
-        </div>
+        <h2>Top 50 Users</h2>
+        <div id="leaderboard-content"></div>
     </div>
-</body>
-<script>
+
+    <script>
     async function loadLeaderboard() {
         try {
             const response = await fetch('http://127.0.0.1:5000/get-leaderboard'); // Fetch data from Flask
             const data = await response.json();
-    
+
             if (data.error) {
                 document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
                 return;
             }
-    
-            const leaderboardContainer = document.querySelector('.leaderboard');
-            leaderboardContainer.innerHTML = '<h2>Top 5 Users</h2>'; // Reset leaderboard content
-    
-            // Sort users by CO2 savings
+
+            const leaderboardContainer = document.getElementById('leaderboard-content');
+            leaderboardContainer.innerHTML = ''; // Clear previous content
+
+            // Sort users by CO2 savings (descending)
             let sortedUsers = Object.entries(data).sort((a, b) => b[1].total_co2_savings_kg - a[1].total_co2_savings_kg);
-    
-            // Limit to Top 5 Users
-            sortedUsers.slice(0, 5).forEach(([name, user], index) => {
+
+            // Display Top 50 Users
+            sortedUsers.slice(0, 50).forEach(([name, user], index) => {
                 let userDiv = document.createElement('div');
                 userDiv.classList.add('user');
-    
+
+                // Assign colors based on rank
+                let profileColor;
+                if (index === 0) profileColor = "gold";      // 🥇 Gold for 1st place
+                else if (index === 1) profileColor = "silver"; // 🥈 Silver for 2nd place
+                else if (index === 2) profileColor = "brown";  // 🥉 Bronze for 3rd place
+                else profileColor = "green";                 // ✅ Green for the rest
+
+                userDiv.style.display = "flex";
+                userDiv.style.alignItems = "center";
+                userDiv.style.marginBottom = "10px"; // Add spacing
+
                 userDiv.innerHTML = `
-                    <img src="profile${index + 1}.jpg" alt="${name}">
+                    <div style="width: 50px; height: 50px; background-color: ${profileColor}; border-radius: 50%; margin-right: 10px;"></div>
                     <div class="details">
-                        <div class="name">${name}</div>
-                        <div class="points">${user.total_co2_savings_kg.toFixed(2)} lbs of CO₂</div>
+                        <div class="name" style="font-weight: bold;">${name}</div>
+                        <div class="points" style="color: gray;">${user.total_co2_savings_kg.toFixed(2)} lbs of CO₂</div>
                     </div>
                 `;
                 leaderboardContainer.appendChild(userDiv);
             });
-    
+
         } catch (error) {
             console.error("Error loading leaderboard:", error);
             document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Failed to load leaderboard.</p>`;
         }
     }
-    
-    // Load leaderboard when page loads
-    window.onload = loadLeaderboard;
+
+    // Ensure leaderboard loads properly
+    document.addEventListener("DOMContentLoaded", loadLeaderboard);
     </script>
-    
+</body>
 </html>
