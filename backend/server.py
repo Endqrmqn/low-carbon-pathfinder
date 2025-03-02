@@ -2,10 +2,15 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import os
+import logging
 from dotenv import load_dotenv
+from retrying import retry
 
 # Load environment variables
 load_dotenv()
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -22,36 +27,50 @@ EMISSION_FACTORS = {
     "publicTransport": 0.041  # Subway / train as default
 }
 
+# Retry decorator for handling network failures
+@retry(stop_max_attempt_number=3, wait_fixed=2000)
+def make_request(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
 # Function to convert an address to latitude/longitude
 def get_coordinates(address):
     url = f"https://api.openrouteservice.org/geocode/search?api_key={ORS_API_KEY}&text={address}"
-    response = requests.get(url)
-    data = response.json()
+    try:
+        data = make_request(url)
+        logging.info(f"Geocode response: {data}")
 
-    if "features" in data and len(data["features"]) > 0:
-        lon, lat = data["features"][0]["geometry"]["coordinates"]
-        return lat, lon  # Return (latitude, longitude)
-
+        if "features" in data and len(data["features"]) > 0:
+            lon, lat = data["features"][0]["geometry"]["coordinates"]
+            return lat, lon  # Return (latitude, longitude)
+    except requests.RequestException as e:
+        logging.error(f"Failed to fetch coordinates for {address}: {e}")
     return None  # Address not found
 
 # Function to get a route and estimate CO₂ emissions
 def get_route_and_emissions(origin, destination, mode="cycling-regular"):
     url = f"https://api.openrouteservice.org/v2/directions/{mode}?api_key={ORS_API_KEY}&start={origin[1]},{origin[0]}&end={destination[1]},{destination[0]}"
     
-    response = requests.get(url)
-    route_data = response.json()
+    try:
+        route_data = make_request(url)
+        logging.info(f"Route API response: {route_data}")
 
-    if "routes" not in route_data:
-        return None, None  # No route found
+        if "routes" not in route_data or not route_data["routes"]:
+            logging.warning("No routes found in API response.")
+            return None, None
 
-    # Extract total distance (meters) from route response
-    total_distance_m = route_data["routes"][0]["summary"]["distance"]
-    total_distance_km = total_distance_m / 1000  # Convert to km
+        # Extract total distance (meters) from route response
+        total_distance_m = route_data["routes"][0]["summary"]["distance"]
+        total_distance_km = total_distance_m / 1000  # Convert to km
 
-    # Estimate CO₂ emissions
-    emissions = EMISSION_FACTORS.get(mode, 0) * total_distance_km
+        # Estimate CO₂ emissions
+        emissions = EMISSION_FACTORS.get(mode, 0) * total_distance_km
 
-    return route_data, emissions
+        return route_data, emissions
+    except requests.RequestException as e:
+        logging.error(f"Failed to fetch route: {e}")
+    return None, None
 
 # API Endpoint: Get the best eco-friendly route
 @app.route('/get-route', methods=['GET'])
