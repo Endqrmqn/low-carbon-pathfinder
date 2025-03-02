@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My emissions</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .graph-container, .activity-container {
+            flex: 1;
+            padding: 20px;
+        }
+        .activity-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .activity-container li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="graph-container">
+            <canvas id="co2Chart"></canvas>
+        </div>
+        <div class="activity-container">
+            <h2>Recent Trip Activity</h2>
+            <ul id="tripList">
+                <!-- Trip activity will be populated here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('co2Chart').getContext('2d');
+        const co2Chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'CO2 Emissions (kg)',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const tripData = [
+            { trip: 'Trip to work', co2: '2.5 kg' },
+            { trip: 'Grocery shopping', co2: '1.2 kg' },
+            { trip: 'Weekend getaway', co2: '5.0 kg' }
+        ];
+
+        const tripList = document.getElementById('tripList');
+        tripData.forEach(trip => {
+            const li = document.createElement('li');
+            li.textContent = `${trip.trip}: ${trip.co2}`;
+            tripList.appendChild(li);
+        });
+    </script>
+</body>
+</html>

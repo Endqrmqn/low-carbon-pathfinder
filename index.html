@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPerks</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #333;
+            width: 200px;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+            border-radius: 30px;
+        }
+        .navbar a {
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            flex-grow: 1;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+            border-radius: none;
+        }
+        .content {
+            margin-left: 200px;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .earth-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-image: url('earthpng_MOMENTARY.png');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+        .co2-counter {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .leaderboard {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .leaderboard h2 {
+            text-align: center;
+        }
+        .leaderboard .user {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .leaderboard .user img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .leaderboard .user .details {
+            flex-grow: 1;
+        }
+        .leaderboard .user .details .name {
+            font-weight: bold;
+        }
+        .leaderboard .user .details .points {
+            color: #888;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="trip-planner.html">Trip Planner</a>
+        <a href="rewards.html">Rewards</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="my-emissions.html">My Emissions</a>
+        <a href="become-a-member.html">Become a Member</a>
+        <a href="learn-more.html">Learn More</a>
+        <a href="donate.html">Donate</a>
+    </div>
+    <div class="content">
+        <div class="earth-photo"></div>
+        <div class="co2-counter">Number of CO2 produced in lbs (during the last week)</div>
+    </div>
+    <div class="leaderboard">
+        <h2>Top 5 Users</h2>
+        <div class="user">
+            <img src="profile1.jpg" alt="User 1">
+            <div class="details">
+                <div class="name">User 1</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+        <div class="user">
+            <img src="profile2.jpg" alt="User 2">
+            <div class="details">
+                <div class="name">User 2</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+        <div class="user">
+            <img src="profile3.jpg" alt="User 3">
+            <div class="details">
+                <div class="name">User 3</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+        <div class="user">
+            <img src="profile4.jpg" alt="User 4">
+            <div class="details">
+                <div class="name">User 4</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+        <div class="user">
+            <img src="profile5.jpg" alt="User 5">
+            <div class="details">
+                <div class="name">User 5</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
