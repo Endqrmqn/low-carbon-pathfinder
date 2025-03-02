@@ -21,17 +21,9 @@
             margin-bottom: 10px;
         }
 
-        .first{
-            background:#ffcc00;
-        }
-
-        .second{
-            background:#a6a6a6;
-        }
-
-        .third{
-            background:#cc6600;
-        }
+        .first { background: #ffcc00; }
+        .second { background: #a6a6a6; }
+        .third { background: #cc6600; }
 
         .leaderboard {
             width: 300px;
@@ -50,23 +42,21 @@
             background: #e9e9e9;
         }
 
-        .leaderboard-item:last-child {
-            margin-bottom: 0;
-        }
+        .leaderboard-item:last-child { margin-bottom: 0; }
 
         .rank-container {
-            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 40px;
             height: 40px;
             margin-right: 15px;
+            position: relative;
         }
 
         .crown {
             position: absolute;
-            top: -20px; /* Adjust this value to move the crown up or down */
+            top: -20px;
             font-size: 1.2em;
             color: gold;
         }
@@ -78,79 +68,70 @@
             justify-content: center;
             align-items: center;
             font-size: 1.2em;
-        }
-
-        .rank.circle {
             border-radius: 50%;
             color: #ffffff;
         }
 
-        .name, .score {
-            flex: 1;
-            text-align: center;
-        }
+        .name, .score { flex: 1; text-align: center; }
     </style>
 </head>
 <body>
     <h1 class="leaderboard-title">WorldWide Leaderboard</h1>
-    <div class="leaderboard">
-        <div class="leaderboard-item">
-            <div class="rank-container">
-                <span class="crown">👑</span>
-                <div class="rank circle first">1</div>
-            </div>
-            <div class="name">User1</div>
-            <div class="score">1000</div>
-        </div>
-        <div class="leaderboard-item">
-            <div class="rank-container">
-                <div class="rank circle second">2</div>
-            </div>
-            <div class="name">User2</div>
-            <div class="score">900</div>
-        </div>
-        <div class="leaderboard-item">
-            <div class="rank-container">
-                <div class="rank circle third">3</div>
-            </div>
-            <div class="name">User3</div>
-            <div class="score">800</div>
-        </div>
-        <div class="leaderboard-item">
-            <div class="rank-container">
-                <div class="rank">4</div>
-            </div>
-            <div class="name">User4</div>
-            <div class="score">800</div>
-        </div>
-        <div class="leaderboard-item">
-            <div class="rank-container">
-                <div class="rank">5</div>
-            </div>
-            <div class="name">User5</div>
-            <div class="score">800</div>
-        </div>
-        <div class="leaderboard-item">
-            <div class="rank-container">
-                <div class="rank">6</div>
-            </div>
-            <div class="name">User6</div>
-            <div class="score">800</div>
-        </div>
-        <div class="leaderboard-item">
-            <div class="rank-container">
-                <div class="rank">7</div>
-            </div>
-            <div class="name">User7</div>
-            <div class="score">800</div>
-        </div>
-        <div class="leaderboard-item">
-            <div class="rank-container">
-                <div class="rank">8</div>
-            </div>
-            <div class="name">User8</div>
-            <div class="score">800</div>
-        </div>
+    <div class="leaderboard" id="leaderboard">
+        <!-- Leaderboard items will be inserted here -->
     </div>
+
+    <script>
+        async function loadLeaderboard() {
+            try {
+                // Fetch the JSON file (replace 'users_with_real_names.json' with the correct file path)
+                const response = await fetch('users_with_real_names.json');
+                const data = await response.json();
+
+                // Convert JSON object to an array
+                const usersArray = Object.entries(data).map(([name, info]) => ({
+                    name: name,
+                    total_co2_savings_kg: info.total_co2_savings_kg
+                }));
+
+                // Sort users by CO₂ savings in descending order
+                usersArray.sort((a, b) => b.total_co2_savings_kg - a.total_co2_savings_kg);
+
+                // Select the leaderboard container
+                const leaderboardContainer = document.getElementById("leaderboard");
+
+                // Loop through users and create leaderboard elements
+                usersArray.forEach((user, index) => {
+                    const item = document.createElement("div");
+                    item.classList.add("leaderboard-item");
+
+                    // Assign special colors to top 3
+                    let rankClass = "";
+                    if (index === 0) rankClass = "first";
+                    else if (index === 1) rankClass = "second";
+                    else if (index === 2) rankClass = "third";
+
+                    // Crown for first place
+                    const crown = index === 0 ? `<span class="crown">👑</span>` : "";
+
+                    item.innerHTML = `
+                        <div class="rank-container">
+                            ${crown}
+                            <div class="rank circle ${rankClass}">${index + 1}</div>
+                        </div>
+                        <div class="name">${user.name}</div>
+                        <div class="score">${user.total_co2_savings_kg.toFixed(2)} kg CO₂</div>
+                    `;
+
+                    leaderboardContainer.appendChild(item);
+                });
+            } catch (error) {
+                console.error("Error loading leaderboard:", error);
+            }
+        }
+
+        // Load the leaderboard when the page loads
+        window.onload = loadLeaderboard;
+    </script>
 </body>
 </html>
