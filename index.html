@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+<html lang="en"></html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Low Carbon Pathfinder</title>
+    <title>EcoPerks</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,6 +39,40 @@
             padding: 20px;
             flex: 1;
         }
+        .leaderboard {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .leaderboard h2 {
+            text-align: center;
+        }
+        .leaderboard .user {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .leaderboard .user img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .leaderboard .user .details {
+            flex-grow: 1;
+        }
+        .leaderboard .user .details .name {
+            font-weight: bold;
+        }
+        .leaderboard .user .details .points {
+            color: #888;
+        }
     </style>
 </head>
 <body>
@@ -52,6 +88,44 @@
     </div>
     <div class="content">
         <!-- Your page content goes here -->
+    </div>
+    <div class="leaderboard">
+        <h2>Top 5 Users</h2>
+        <div class="user">
+            <img src="profile1.jpg" alt="User 1">
+            <div class="details">
+                <div class="name">User 1</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+        <div class="user">
+            <img src="profile2.jpg" alt="User 2">
+            <div class="details">
+                <div class="name">User 2</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+        <div class="user">
+            <img src="profile3.jpg" alt="User 3">
+            <div class="details">
+                <div class="name">User 3</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+        <div class="user">
+            <img src="profile4.jpg" alt="User 4">
+            <div class="details">
+                <div class="name">User 4</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
+        <div class="user">
+            <img src="profile5.jpg" alt="User 5">
+            <div class="details">
+                <div class="name">User 5</div>
+                <div class="points"># lbs of CO2</div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
