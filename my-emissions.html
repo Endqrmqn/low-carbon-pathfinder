@@ -1,29 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My emissions</title>
+    <title>My Emissions</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
-        body {
+        html, body {
+            background-color: #0f0f0f;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, sans-serif;
             display: flex;
-            font-family: Arial, sans-serif;
         }
         .container {
             display: flex;
-            width: 100%;
-        }
-        .graph-container, .activity-container {
             flex: 1;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
         }
-        .activity-container ul {
-            list-style-type: none;
-            padding: 0;
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            background-color: #d9ffb3;
+            width: 200px;
+            padding: 20px;
+            border-radius: 30px;
+            margin: 20px;
         }
-        .activity-container li {
-            margin-bottom: 10px;
+        .navbar a {
+            text-align: center;
+            text-decoration: none;
+            color: #000033;
+            padding: 14px 20px;
+            margin: 5px 0;
+        }
+        .navbar a:hover {
+            background-color: #f2ffe6;
+            color: black;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .trip-form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            padding: 20px;
+            background: #ffffe6;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .trip-form input, .trip-form button {
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .trip-form button {
+            background-color: #000033;
+            color: white;
+            cursor: pointer;
+        }
+        .trip-form button:hover {
+            background-color: #ffffff;
+            color: black;
+        }
+        .trip-results {
+            display: none;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f4f4f4;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -32,65 +93,63 @@
         <a href="index.html">Home</a>
         <a href="trip-planner.html">Trip Planner</a>
         <a href="rewards.html">Rewards</a>
-        <a href="leaderboard.html">Leaderboard</a>
+        <a href="quests.html">Quests</a>
         <a href="my-emissions.html">My Emissions</a>
         <a href="become-a-member.html">Become a Member</a>
         <a href="learn-more.html">Learn More</a>
         <a href="donate.html">Donate</a>
     </div>
-</body>
-<body>
+
     <div class="container">
-        <div class="graph-container">
-            <canvas id="co2Chart"></canvas>
-        </div>
-        <div class="activity-container">
-            <h2>Recent Trip Activity</h2>
-            <ul id="tripList">
-                <!-- Trip activity will be populated here -->
-            </ul>
+        <div class="content">
+            <h2 style="color: #ccccff;">My Emissions</h2>
+            
+            <form class="trip-form" onsubmit="fetchUserEmissions(event)">
+                <input type="text" id="username" placeholder="Enter your username" required>
+                <button type="submit">Find My Emissions</button>
+            </form>
+            
+            <div id="userHistory" class="trip-results"></div>
         </div>
     </div>
 
     <script>
-        const ctx = document.getElementById('co2Chart').getContext('2d');
-        const co2Chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [{
-                    label: 'CO2 Emissions (kg)',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        beginAtZero: true
-                    }
+        async function fetchUserEmissions(event) {
+            event.preventDefault(); // Prevent page refresh
+
+            const username = document.getElementById('username').value;
+            const historyDiv = document.getElementById('userHistory');
+            
+            historyDiv.innerHTML = "Loading...";
+            historyDiv.style.display = "block";
+
+            try {
+                // Fetch user history from leaderboard
+                const historyResponse = await fetch(`http://127.0.0.1:5000/get-leaderboard`);
+                const historyData = await historyResponse.json();
+
+                if (historyData[username]) {
+                    const totalSavings = historyData[username].total_co2_savings_kg;
+                    const trips = historyData[username].trips;
+
+                    historyDiv.innerHTML = `
+                        <h3>Your Emissions Savings</h3>
+                        <p><b>Total CO₂ Savings:</b> ${totalSavings.toFixed(2)} kg</p>
+                        <p><b>Past Trips (CO₂ Saved in kg):</b></p>
+                        <ul>
+                            ${trips.map(trip => `<li>${trip.toFixed(2)} kg</li>`).join('')}
+                        </ul>
+                    `;
+                    historyDiv.style.display = "block";
+                } else {
+                    historyDiv.innerHTML = `<p style="color: red;">No trip history found for ${username}.</p>`;
+                    historyDiv.style.display = "block";
                 }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                historyDiv.innerHTML = `<p style="color: red;">Failed to load trip history.</p>`;
             }
-        });
-
-        const tripData = [
-            { trip: 'Trip to work', co2: '2.5 kg' },
-            { trip: 'Grocery shopping', co2: '1.2 kg' },
-            { trip: 'Weekend getaway', co2: '5.0 kg' }
-        ];
-
-        const tripList = document.getElementById('tripList');
-        tripData.forEach(trip => {
-            const li = document.createElement('li');
-            li.textContent = `${trip.trip}: ${trip.co2}`;
-            tripList.appendChild(li);
-        });
+        }
     </script>
 </body>
-
 </html>

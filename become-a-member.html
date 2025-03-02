@@ -12,7 +12,28 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #0f0f0f;
+        }
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #d9ffb3;
+            width: 200px;
+            padding: 20px;
+            border-radius: 30px;
+            margin: 20px;
+        }
+        .navbar a {
+            text-align: center;
+            text-decoration: none;
+            color: #000033;
+            padding: 14px 20px;
+            margin: 5px 0;
+        }
+        .navbar a:hover {
+            background-color: #f2ffe6;
+            color: black;
         }
 
         .container {
@@ -65,9 +86,54 @@
         button:hover {
             background-color: #0056b3;
         }
+        .leaderboard {
+            border-radius: 30px;
+            background-color: #ffffe6;
+            width: 300px;
+            padding: 20px;
+            position: absolute;
+            right: 20px;
+            top: -786px;
+            margin: 20px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            margin-top: 800px; /* Push leaderboard down */
+        }
+        .leaderboard h2 {
+            text-align: center;
+        }
+        .leaderboard .user {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .leaderboard .user .avatar {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .leaderboard .user .details {
+            flex-grow: 1;
+        }
+        .leaderboard .user .details .name {
+            font-weight: bold;
+        }
+        .leaderboard .user .details .points {
+            color: #888;
+        }
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="trip-planner.html">Trip Planner</a>
+        <a href="rewards.html">Rewards</a>
+        <a href="Quests.html">Quests</a>
+        <a href="my-emissions.html">My Emissions</a>
+        <a href="become-a-member.html">Become a Member</a>
+        <a href="learn-more.html">Learn More</a>
+        <a href="donate.html">Donate</a>
+    </div>
     <div class="container">
         <h1>Member Perks</h1>
         <h2>Subscription Box Details</h2>
@@ -75,9 +141,9 @@
         <div class="content">
             <div class="list">
                 <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
+                    <li>Organic Tea From India</li>
+                    <li>Organic Compost Kit</li>
+                    <li>Metal Water Purifying Kit</li>
                 </ul>
             </div>
             <div class="picture">
