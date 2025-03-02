@@ -5,58 +5,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoPerks</title>
+    <link href="https://fonts.cdnfonts.com/css/helvetica-neue-55" rel="stylesheet">
+                
     
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        html, body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #000033;
+            height: 100%;
+            margin: 0;
+            padding: 0;
             display: flex;
+            flex-direction: column;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
         }
         .navbar {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background-color: #333;
+            background-color: #d9ffb3;
             width: 200px;
-            height: 100vh;
-            position: fixed;
-            padding: 20px 0;
+            padding: 20px;
             border-radius: 30px;
+            margin: 20px;
         }
         .navbar a {
+            justify-content: center; 
             padding: 14px 20px;
             text-align: center;
             text-decoration: none;
-            color: white;
+            color: #000033;
             flex-grow: 1;
         }
         .navbar a:hover {
-            background-color: #ddd;
+            background-color: 	 #f2ffe6;
             color: black;
-            border-radius: none;
         }
         .content {
-            margin-left: 200px;
-            padding: 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
+        }
+        .earth-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-image: url('this.gif');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
         }
         .co2-counter {
             font-size: 24px;
             font-weight: bold;
+            color: #ccccff;
         }
         .leaderboard {
-            position: fixed;
-            right: 0;
-            top: 0;
+            border-radius: 30px;
+            background-color: #ffffe6;
             width: 300px;
-            height: 100vh;
-            background-color: #f4f4f4;
             padding: 20px;
+            margin: 20px;
             box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-            overflow-y: auto;
         }
         .leaderboard h2 {
             text-align: center;
@@ -85,23 +103,6 @@
 
 </head>
 <body>
-    <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="trip-planner.html">Trip Planner</a>
-        <a href="rewards.html">Rewards</a>
-        <a href="leaderboard.html">Leaderboard</a>
-        <a href="my-emissions.html">My Emissions</a>
-        <a href="become-a-member.html">Become a Member</a>
-        <a href="learn-more.html">Learn More</a>
-        <a href="donate.html">Donate</a>
-    </div>
-    <div class="content">
-        <div class="earth-photo"></div>
-        <div class="co2-counter">Number of CO2 produced in lbs (during the last week)</div>
-    </div>
-    <div class="leaderboard">
-        <h2>Top 50 Users</h2>
-        <div id="leaderboard-content"></div>
     </div>
 
     <script>
