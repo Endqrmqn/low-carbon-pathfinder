@@ -7,41 +7,51 @@
     <title>EcoPerks</title>
     
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        html, body {
+            background-color: #000033;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, sans-serif;
             display: flex;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
         }
         .navbar {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background-color: #333;
+            background-color: #d9ffb3;
             width: 200px;
-            height: 100vh;
-            position: fixed;
-            padding: 20px 0;
+            padding: 20px;
             border-radius: 30px;
+            margin: 20px;
         }
         .navbar a {
-            padding: 14px 20px;
             text-align: center;
             text-decoration: none;
-            color: white;
-            flex-grow: 1;
+            color: #000033;
+            padding: 14px 20px;
+            margin: 5px 0;
         }
         .navbar a:hover {
-            background-color: #ddd;
+            background-color: #f2ffe6;
             color: black;
-            border-radius: none;
         }
         .content {
-            margin-left: 200px;
-            padding: 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            padding: 20px;
         }
         .earth-photo {
             width: 300px;
@@ -55,17 +65,19 @@
         .co2-counter {
             font-size: 24px;
             font-weight: bold;
+            color: #ccccff;
         }
         .leaderboard {
-            position: fixed;
-            right: 0;
-            top: 0;
+            border-radius: 30px;
+            background-color: #ffffe6;
             width: 300px;
-            height: 100vh;
-            background-color: #f4f4f4;
             padding: 20px;
+            position: absolute;
+            right: 20px;
+            top: -786px;
+            margin: 20px;
             box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-            overflow-y: auto;
+            margin-top: 800px; /* Push leaderboard down */
         }
         .leaderboard h2 {
             text-align: center;
@@ -73,9 +85,9 @@
         .leaderboard .user {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
-        .leaderboard .user img {
+        .leaderboard .user .avatar {
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -104,13 +116,17 @@
         <a href="learn-more.html">Learn More</a>
         <a href="donate.html">Donate</a>
     </div>
-    <div class="content">
-        <div class="earth-photo"></div>
-        <div class="co2-counter">Number of CO2 produced in lbs (during the last week)</div>
-    </div>
-    <div class="leaderboard">
-        <h2>Top 50 Users</h2>
-        <div id="leaderboard-content"></div>
+
+    <div class="container">
+        <div class="content">
+            <div class="earth-photo"></div>
+            <div class="co2-counter">Number of CO2 produced in lbs (during the last week)</div>
+        </div>
+
+        <div class="leaderboard">
+            <h2>Top 50 Users</h2>
+            <div id="leaderboard-content"></div>
+        </div>
     </div>
 
     <script>
@@ -120,7 +136,7 @@
             const data = await response.json();
 
             if (data.error) {
-                document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                document.getElementById('leaderboard-content').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
                 return;
             }
 
@@ -142,15 +158,11 @@
                 else if (index === 2) profileColor = "brown";  // 🥉 Bronze for 3rd place
                 else profileColor = "green";                 // ✅ Green for the rest
 
-                userDiv.style.display = "flex";
-                userDiv.style.alignItems = "center";
-                userDiv.style.marginBottom = "10px"; // Add spacing
-
                 userDiv.innerHTML = `
-                    <div style="width: 50px; height: 50px; background-color: ${profileColor}; border-radius: 50%; margin-right: 10px;"></div>
+                    <div class="avatar" style="background-color: ${profileColor}; width: 50px; height: 50px;"></div>
                     <div class="details">
-                        <div class="name" style="font-weight: bold;">${name}</div>
-                        <div class="points" style="color: gray;">${user.total_co2_savings_kg.toFixed(2)} lbs of CO₂</div>
+                        <div class="name">${name}</div>
+                        <div class="points">${user.total_co2_savings_kg.toFixed(2)} lbs of CO₂</div>
                     </div>
                 `;
                 leaderboardContainer.appendChild(userDiv);
@@ -158,7 +170,7 @@
 
         } catch (error) {
             console.error("Error loading leaderboard:", error);
-            document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Failed to load leaderboard.</p>`;
+            document.getElementById('leaderboard-content').innerHTML = `<p style="color: red;">Failed to load leaderboard.</p>`;
         }
     }
 
