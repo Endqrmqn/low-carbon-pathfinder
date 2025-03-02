@@ -147,4 +147,46 @@
         </div>
     </div>
 </body>
+<script>
+    async function loadLeaderboard() {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/get-leaderboard'); // Fetch data from Flask
+            const data = await response.json();
+    
+            if (data.error) {
+                document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                return;
+            }
+    
+            const leaderboardContainer = document.querySelector('.leaderboard');
+            leaderboardContainer.innerHTML = '<h2>Top 5 Users</h2>'; // Reset leaderboard content
+    
+            // Sort users by CO2 savings
+            let sortedUsers = Object.entries(data).sort((a, b) => b[1].total_co2_savings_kg - a[1].total_co2_savings_kg);
+    
+            // Limit to Top 5 Users
+            sortedUsers.slice(0, 5).forEach(([name, user], index) => {
+                let userDiv = document.createElement('div');
+                userDiv.classList.add('user');
+    
+                userDiv.innerHTML = `
+                    <img src="profile${index + 1}.jpg" alt="${name}">
+                    <div class="details">
+                        <div class="name">${name}</div>
+                        <div class="points">${user.total_co2_savings_kg.toFixed(2)} lbs of CO₂</div>
+                    </div>
+                `;
+                leaderboardContainer.appendChild(userDiv);
+            });
+    
+        } catch (error) {
+            console.error("Error loading leaderboard:", error);
+            document.querySelector('.leaderboard').innerHTML = `<p style="color: red;">Failed to load leaderboard.</p>`;
+        }
+    }
+    
+    // Load leaderboard when page loads
+    window.onload = loadLeaderboard;
+    </script>
+    
 </html>

@@ -162,6 +162,16 @@ def approximate_public_transport_route(origin, destination):
 
     return estimated_transit_distance_km, emissions, (ci_lower, ci_upper), drive_route
 
+JSON_FILE_PATH = os.path.join(os.path.dirname(__file__), "data.json")
+
+@app.route('/get-leaderboard', methods=['GET'])
+def get_leaderboard():
+    try:
+        with open(JSON_FILE_PATH, 'r') as file:
+            data = json.load(file)
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # API Endpoint: Get the best eco-friendly route
 @app.route('/get-eco-route', methods=['GET'])

@@ -84,54 +84,37 @@
     <script>
         async function loadLeaderboard() {
             try {
-                // Fetch the JSON file (replace 'users_with_real_names.json' with the correct file path)
-                const response = await fetch('users_with_real_names.json');
+                const response = await fetch('http://127.0.0.1:5000/get-leaderboard');  // Flask API
                 const data = await response.json();
-
-                // Convert JSON object to an array
-                const usersArray = Object.entries(data).map(([name, info]) => ({
-                    name: name,
-                    total_co2_savings_kg: info.total_co2_savings_kg
-                }));
-
-                // Sort users by CO₂ savings in descending order
-                usersArray.sort((a, b) => b.total_co2_savings_kg - a.total_co2_savings_kg);
-
-                // Select the leaderboard container
-                const leaderboardContainer = document.getElementById("leaderboard");
-
-                // Loop through users and create leaderboard elements
-                usersArray.forEach((user, index) => {
-                    const item = document.createElement("div");
-                    item.classList.add("leaderboard-item");
-
-                    // Assign special colors to top 3
-                    let rankClass = "";
-                    if (index === 0) rankClass = "first";
-                    else if (index === 1) rankClass = "second";
-                    else if (index === 2) rankClass = "third";
-
-                    // Crown for first place
-                    const crown = index === 0 ? `<span class="crown">👑</span>` : "";
-
-                    item.innerHTML = `
+        
+                const leaderboard = document.querySelector('.leaderboard');
+                leaderboard.innerHTML = '';  // Clear existing entries
+        
+                let sortedUsers = Object.entries(data).sort((a, b) => b[1].total_co2_savings_kg - a[1].total_co2_savings_kg);
+        
+                sortedUsers.forEach(([name, user], index) => {
+                    let div = document.createElement('div');
+                    div.classList.add('leaderboard-item');
+                    if (index === 0) div.classList.add('first');
+                    else if (index === 1) div.classList.add('second');
+                    else if (index === 2) div.classList.add('third');
+        
+                    div.innerHTML = `
                         <div class="rank-container">
-                            ${crown}
-                            <div class="rank circle ${rankClass}">${index + 1}</div>
+                            ${index === 0 ? '<span class="crown">👑</span>' : ''}
+                            <div class="rank circle">${index + 1}</div>
                         </div>
-                        <div class="name">${user.name}</div>
-                        <div class="score">${user.total_co2_savings_kg.toFixed(2)} kg CO₂</div>
+                        <div class="name">${name}</div>
+                        <div class="score">${user.total_co2_savings_kg} kg CO₂</div>
                     `;
-
-                    leaderboardContainer.appendChild(item);
+                    leaderboard.appendChild(div);
                 });
             } catch (error) {
                 console.error("Error loading leaderboard:", error);
             }
         }
-
-        // Load the leaderboard when the page loads
+        
         window.onload = loadLeaderboard;
-    </script>
+        </script>        
 </body>
 </html>
