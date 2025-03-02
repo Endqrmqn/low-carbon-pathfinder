@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en"></html>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -39,6 +38,23 @@
             margin-left: 200px;
             padding: 20px;
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .earth-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-image: url('earthpng_MOMENTARY.png');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+        .co2-counter {
+            font-size: 24px;
+            font-weight: bold;
         }
         .leaderboard {
             position: fixed;
@@ -89,7 +105,8 @@
         <a href="donate.html">Donate</a>
     </div>
     <div class="content">
-        <!-- Your page content goes here -->
+        <div class="earth-photo"></div>
+        <div class="co2-counter">Number of CO2 produced in lbs (during the last week)</div>
     </div>
     <div class="leaderboard">
         <h2>Top 5 Users</h2>
