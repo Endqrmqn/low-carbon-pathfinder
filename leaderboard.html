@@ -8,11 +8,17 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background: #f0f0f0;
+        }
+
+        .leaderboard-title {
+            font-size: 2em;
+            margin-bottom: 10px;
         }
 
         .leaderboard {
@@ -21,12 +27,6 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             background: #ffffff;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
         }
 
         .leaderboard-item {
@@ -49,6 +49,7 @@
     </style>
 </head>
 <body>
+    <h1 class="leaderboard-title">WorldWide Leaderboard</h1>
     <div class="leaderboard">
         <div class="leaderboard-item">
             <div class="rank">1</div>
